@@ -1,4 +1,4 @@
-import trafilatura, re, requests, os
+import trafilatura, re, requests, os, json
 from googlesearch import lucky
 from main import textName
 
@@ -32,16 +32,26 @@ if str(r.status_code)[0] == "2":
     testList = []
 
     with open("ee.txt", "w", encoding='utf-8') as file:
+        checkCommit = False
         for i in listedText:
-            if  re.search("characters", i.lower()) != None:
+            if  re.search("Characters", i) != None:
+                # if re.search(listedText[i.index() + 1], []):
+                #     pass
                 print("EEEEEEEEEEEEEEEEEEE")
                 testList.append(i)
+                if checkCommit == False:
+                    for j in range(listedText.index(i), listedText.index(i) + 10):
+                        print(listedText[j])
+                        checkCommit = True
 
-        with open("test.txt", "w", encoding="utf-8") as testFile:
-            testFile.write(str(testList))
+        with open("test.json", "w", encoding="utf-8") as testFile:
+            json.dump(str(testList),testFile)
 
         file.write(str(listedText))
     os.replace(f"{os.getcwd()}\\ee.txt", f"{os.getcwd()}\\data\\ee.txt")
+
+
+
 
 else:
     print("Problem accessing website")
